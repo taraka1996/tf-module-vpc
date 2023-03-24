@@ -3,8 +3,7 @@ resource "aws_vpc" "main" {
     tags = merge(
         var.tags,
          { Name = "${var.env}-vpc" }
-
-    )          
+   )          
 }
 
 resource "aws_subnet" "public_subnets" {
