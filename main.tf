@@ -32,7 +32,13 @@ resource "aws_internet_gateway" "igw" {
 }
 
 ## NAT gateway
-resource "aws_eip" "nat" {
+resource "aws_eip" "nat"{
+    for_each = var.public_subnets
+    vpc = true
+}
+
+ 
+resource "aws_nat_gateway" "nat-gateway" {
   for_each = var.public_subnets
   allocation_id = aws_eip.nat[each.value["name"]].id 
   subnet_id = aws_subnet.public_subnets[each.value["name"]].id 
