@@ -31,6 +31,18 @@ resource "aws_internet_gateway" "igw" {
     )
 }
 
+## NAT gateway
+resource "aws_eip" "nat" {
+  for_each = var.public_subnets
+  allocation_id = aws_eip.nat[each.value["name"]].id 
+  subnet_id = aws_subnet.public_subnets[each.value["name"]].id 
+  
+  tags = merge(
+    var.tags,
+    {name = "${var.env}-${each.value["name]}" }
+  )
+}
+
 ## public route table
 resource "aws_route_table" "public-route-table" {
     vpc_id = aws_vpc.main.id
