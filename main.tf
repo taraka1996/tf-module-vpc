@@ -22,7 +22,7 @@ resource "aws_subnet" "public_subnets" {
 
 ##internet gateway
 
-resource "aws-internet-gateway" "igw" {
+resource "aws_internet_gateway" "igw" {
     vpc_id = aws_vpc.main.id
 
     tags = merge(
