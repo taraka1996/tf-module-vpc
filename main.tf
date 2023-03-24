@@ -53,7 +53,7 @@ resource "aws_nat_gateway" "nat-gateway" {
 resource "aws_route_table" "public-route-table" {
     vpc_id = aws_vpc.main.id
 
-    route{
+    route {
         cidr_block = "0.0.0.0/0"
         gateway_id = aws_internet_gateway.igw.id
     }
@@ -89,8 +89,14 @@ resource "aws_subnet" "private_subnets" {
 ## private route table
 resource "aws_route_table" "private-route-table" {
     vpc_id = aws_vpc.main.id
+     
     
-    for_each = var.private_subnets
+    for_each = var.private_subnets 
+    route {
+        cidr_block = "0.0.0.0/0"
+        nat_gateway_id = aws_nat_gateways[each.value["availability_zone"]].id
+    }
+       
     tags = merge(
         var.tags, 
         { Name = "${var.env}- ${each.value["name"]}"}
