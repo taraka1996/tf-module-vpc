@@ -99,12 +99,12 @@ resource "aws_route_table" "private-route-table" {
         nat_gateway_id = aws_nat_gateway.nat-gateways["public-${split("-",each.value["name"])[1]}"].id
     }
      
-    }
+    
     tags = merge(
         var.tags, 
         { Name = "${var.env}- ${each.value["name"]}"}
     )
- }
+  }
 
 resource "aws_route_table_association" "private-association" {
     for_each = var.private_subnets
