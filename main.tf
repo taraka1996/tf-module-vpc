@@ -39,10 +39,10 @@ resource "aws_eip" "nat" {
   
   tags = merge(
     var.tags,
-    {name = "${var.env}-${each.value["name]}" }
+    { Name = "${var.env}-${each.value["name"]}"}
   )
-}
 
+}
 ## public route table
 resource "aws_route_table" "public-route-table" {
     vpc_id = aws_vpc.main.id
